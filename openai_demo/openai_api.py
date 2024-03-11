@@ -270,8 +270,9 @@ def process_history_and_images(messages: List[ChatMessageInput]) -> Tuple[
             for item in content:
                 if isinstance(item, ImageUrlContent):
                     image_url = item.image_url.url
-                    if image_url.startswith("data:image/jpeg;base64,"):
-                        base64_encoded_image = image_url.split("data:image/jpeg;base64,")[1]
+                    print(image_url)
+                    if image_url.startswith("data:image/png;base64,"):
+                        base64_encoded_image = image_url.split("data:image/png;base64,")[1]
                         image_data = base64.b64decode(base64_encoded_image)
                         image = Image.open(BytesIO(image_data)).convert('RGB')
                         image_list.append(image)

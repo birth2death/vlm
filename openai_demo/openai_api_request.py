@@ -86,14 +86,14 @@ def simple_image_chat(use_stream=True, img_path=None):
     It then calls `create_chat_completion` to generate a response from the model.
     The conversation includes asking about the content of the image and a follow-up question.
     """
-
-    img_url = f"data:image/jpeg;base64,{encode_image(img_path)}"
+    if img_path is not None:
+        img_url = f"data:image/png;base64,{encode_image(img_path)}"
     messages = [
         {
             "role": "user",
             "content": [
                 {
-                    "type": "text", "text": "What’s in this image?",
+                    "type": "text", "text": "Within 10 words, describe an animal of similar shape, that fits in the scenario of 'taking a shower'.",
                 },
                 {
                     "type": "image_url",
@@ -102,18 +102,10 @@ def simple_image_chat(use_stream=True, img_path=None):
                     },
                 },
             ],
-        },
-        {
-            "role": "assistant",
-            "content": "The image displays a wooden boardwalk extending through a vibrant green grassy wetland. The sky is partly cloudy with soft, wispy clouds, indicating nice weather. Vegetation is seen on either side of the boardwalk, and trees are present in the background, suggesting that this area might be a natural reserve or park designed for ecological preservation and outdoor recreation. The boardwalk allows visitors to explore the area without disturbing the natural habitat.",
-        },
-        {
-            "role": "user",
-            "content": "Do you think this is a spring or winter photo?"
-        },
+        }
     ]
     create_chat_completion("cogvlm-chat-17b", messages=messages, use_stream=use_stream)
 
 
 if __name__ == "__main__":
-    simple_image_chat(use_stream=False, img_path="demo.jpg")
+    simple_image_chat(use_stream=False, img_path="openai_demo/111.png")
